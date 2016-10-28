@@ -49,7 +49,7 @@ def compress(l:List[Any]): List[Any]  = l match {
   case x :: y :: t if x==y => compress(x :: t)
   case x :: y :: t         => x :: compress(y :: t)
 }
-¡
+
 //s-09
 def pack(l:List[Int]) =
   l.foldLeft(List[List[Int]]()) {
