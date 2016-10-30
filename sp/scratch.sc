@@ -51,7 +51,9 @@ def compress(l:List[Any]): List[Any]  = l match {
 }
 
 //s-09
-def pack(l:List[Int]) =
+def pack(l:List[Int]) = pack2(l)
+
+def pack2(l:List[Int]) =
   l.foldLeft(List[List[Int]]()) {
     (z:List[List[Int]], e:Int) => z match {
       case Nil => List(List(e))
@@ -60,7 +62,11 @@ def pack(l:List[Int]) =
     }
   }
 //s-10
-def encode(l:List[Int]): List[(Int,Int)] = {
+def encode(l:List[Int]): List[(Int, Int)] = encode1(l)
+
+def encode2(l:List[Int]): List[(Int,Int)] = pack2(l).map(e => (size(e), e.head))
+
+def encode1(l:List[Int]): List[(Int,Int)] = {
   l.foldLeft(List[(Int,Int)]()) {
     (z: List[(Int,Int)], e:Int) => z match {
       case Nil => List((1,e))
@@ -77,6 +83,56 @@ def encodeModified(l:List[Int]): List[Any] =
       case _       => e
     }
   )
+
+  //s-12
+def decode(l:List[(Int, Int)]) =
+  l.map( e  => e match { case (m, n) => for { _ <- (1 to m) } yield (n) } )
+
+decode(encode(List(1,1,1,22,22,22,333,333,333)))
+
+//s-13
+def encodeDirect(l:List[Int]): List[(Int,Int)] = encode1(l)
+
+//s-14
+def duplicate(l:List[Int]): List[Int] = l.flatMap(e => e::e::Nil)
+
+duplicate(l)
+
+//s-15
+def duplicateN(n:Int, l:List[Int]):List[Int] = for {
+  e <- l
+  i <- (1 to n)
+} yield e
+duplicateN(3, l)
+
+//s-16
+def drop(n:Int, l:List[Int]) = {
+  def helper(m:Int, f:List[Int], b:List[Int]):List[Int] = {
+    f match {
+      case Nil => b
+      case _   => m match {
+          case 1 => helper(n, f.tail, b)
+          case _ => helper(m-1, f.tail, f.head :: b )
+        }
+    }
+  }
+  reverse(helper(n,l,List()))
+}
+
+drop(3,l)
+
+
+//s-17
+def split(n:Int, l:List[Int]): (List[Int], List[Int]) = {
+  def helper(m: Int, f: List[Int], b: List[Int]): (List[Int], List[Int]) = m match {
+    case 0 => (reverse(f), reverse(b))
+    case _ => helper(m - 1, f.tail, f.head :: b)
+  }
+  helper(n, l, List())
+}
+
+
+
 
 
 
