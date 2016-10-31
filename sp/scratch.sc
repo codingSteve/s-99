@@ -131,8 +131,13 @@ def split(n:Int, l:List[Int]): (List[Int], List[Int]) = {
   helper(n, l, List())
 }
 
+//s-18
+def slice(m:Int, n:Int, l:List[Int]):List[Int] = split(n-m,split(m,l)._1)._1
 
+//s-19
+def rotate(n:Int, l:List[Int]):List[Int] = n match  {
+  case 0          => l
+  case i if n > 0 => rotate(n-1, l.tail :+ l.head)
+  case j if n < 0 => reverse( rotate( -j, reverse( l ) ) )
 
-
-
-
+}
