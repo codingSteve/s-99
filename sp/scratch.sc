@@ -17,7 +17,7 @@ def penultimate(l:List[Int]):Int = l match {
 
 def nth(n:Int, l:List[Int]):Int = n match {
   case ( 0 ) => l.head
-  case ( _ ) => nth( n-1, l.tail)
+  case ( _ ) => nth( n-1, l.tail )
 }
 
 def size(l:List[Int]): Int = {
@@ -125,7 +125,7 @@ drop(3,l)
 //s-17
 def split(n:Int, l:List[Int]): (List[Int], List[Int]) = {
   def helper(m: Int, f: List[Int], b: List[Int]): (List[Int], List[Int]) = m match {
-    case 0 => (reverse(f), reverse(b))
+    case 0 => (reverse(b), f )
     case _ => helper(m - 1, f.tail, f.head :: b)
   }
   helper(n, l, List())
@@ -139,5 +139,16 @@ def rotate(n:Int, l:List[Int]):List[Int] = n match  {
   case 0          => l
   case i if n > 0 => rotate(n-1, l.tail :+ l.head)
   case j if n < 0 => reverse( rotate( -j, reverse( l ) ) )
-
 }
+
+//s-20
+def removeAt(n:Int, l:List[Int]):(List[Int], Int) =
+  (l.zipWithIndex.filter (e => e match { case (e,i) => i != n}).map(e => e._1), nth(n,l))
+
+//s-21
+def insertAt(n:Int, i:Int, l:List[Int]) = split(i, l) match {
+  case (f,b) => f ::: n::b
+  case _     => Nil
+}
+
+insertAt(-1, 3, l)
