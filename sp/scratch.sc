@@ -152,3 +152,15 @@ def insertAt(n:Int, i:Int, l:List[Int]) = split(i, l) match {
 }
 
 insertAt(-1, 3, l)
+
+//s-22
+def range(m:Int, n:Int): List[Int] =
+  if ( m ==n ) n :: Nil
+  else m :: range(m+1, n)
+
+//s-23
+def randomSelect(n:Int, l:List[Int]):List[Int] = scala.util.Random.shuffle(l).take(n)
+
+//s-24
+def lotto(m:Int, n:Int) = randomSelect(m, range(1,n))
+
