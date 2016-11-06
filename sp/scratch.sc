@@ -1,3 +1,5 @@
+
+
 val l: List[Int] = List(1,2,3,4,5)
 
 
@@ -163,4 +165,28 @@ def randomSelect(n:Int, l:List[Int]):List[Int] = scala.util.Random.shuffle(l).ta
 
 //s-24
 def lotto(m:Int, n:Int) = randomSelect(m, range(1,n))
+
+
+//s-25
+def randomPermute(l:List[Int]) = scala.util.Random.shuffle(l)
+
+//s-26
+def combinations(n:Int, l:List[Int]): Iterable[List[Int]] =
+  n match {
+    case 0 => List(List())
+    case _ => for {
+      i <- 0 until size(l)
+      // order matters here.
+      // Once we get into needing an Option we seem to get stuck
+      r <- combinations( n-1, rotate( i, l ).tail)
+      h <- rotate( i , l ).headOption
+    } yield h :: r
+  }
+
+
+//s-27b
+def group( sizes:List[Int], l:List[Int] ) = sizes.map( n => combinations( n, l ))
+
+//s-27a
+def group3(l:List[Int]) = group( List( 2, 3, 4 ), l )
 
